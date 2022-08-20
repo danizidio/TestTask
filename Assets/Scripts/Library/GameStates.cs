@@ -43,18 +43,5 @@ namespace StateMachine
         {
             return GamePlayCurrentState;
         }
-
-        private void OnEnable()
-        {
-            OnNextGameState += NextGameStates;
-        }
-        private void OnDisable()
-        {
-            OnNextGameState -= NextGameStates;
-        }
     }
-
-
-
-
 }
