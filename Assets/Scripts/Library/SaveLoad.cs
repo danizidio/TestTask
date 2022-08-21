@@ -8,6 +8,7 @@ namespace SaveLoadPlayerPrefs
         //GAMEPLAY PREFS
         MONETARY_VALUE,
         HIGHSCORE,
+        MISC_ITEMS,
         PLAYER_LEVEL,
         CHARACTER_PREFS,
         
@@ -20,6 +21,8 @@ namespace SaveLoadPlayerPrefs
         SKINCOLOR,
         SHIRTCOLOR,
         LEGCOLOR,
+        ARMOR,
+        WEAPON,
 
         //MENU PREFS
         BLOOM,

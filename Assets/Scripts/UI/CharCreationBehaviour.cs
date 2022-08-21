@@ -5,6 +5,8 @@ using SaveLoadPlayerPrefs;
 
 public class CharCreationBehaviour : MonoBehaviour
 {
+    public static CharCreationBehaviour instance;
+
     [SerializeField] GameObject _femaleBody, _maleBody;
 
     [SerializeField] SpriteRenderer[] _femaleHair, _maleHair;
@@ -22,22 +24,26 @@ public class CharCreationBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
+        instance = this;
     }
 
-    private void Start()
-    {
-        _isFemale = false;
-        
-        GenderChange(_isFemale);
 
-        s = new SaveLoad();
-    }
     #region - UI Button Events
 
+    public void FirstPersonalization()
+    {
+        s = new SaveLoad();
+
+        if (!PlayerPrefs.HasKey(SaveStrings.HAS_MADE_CHARACTER.ToString()))
+        {
+            s.PlayerSaveInt(SaveStrings.HAS_MADE_CHARACTER.ToString(), 1);
+        }
+    }
     public void GenderChange(bool a)
     {
-        if(a)
+        s = new SaveLoad();
+
+        if (a)
         {
             _femaleBody.SetActive(true);
             _maleBody.SetActive(false);
@@ -54,6 +60,8 @@ public class CharCreationBehaviour : MonoBehaviour
     }
     public void HairChange(int a)
     {
+        s = new SaveLoad();
+
         _valueHair += a;
 
         if (_valueHair > 2)
@@ -78,6 +86,8 @@ public class CharCreationBehaviour : MonoBehaviour
     }
     public void FaceChange(int a)
     {
+        s = new SaveLoad();
+
         _valueFace += a;
 
         if (_valueFace > 2)
@@ -104,6 +114,8 @@ public class CharCreationBehaviour : MonoBehaviour
     }
     public void HairColor(int a)
     {
+        s = new SaveLoad();
+
         _valueHairColor += a;
 
         if (_valueHairColor > 2)
@@ -140,8 +152,6 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
-
-                s.PlayerSaveColor(SaveStrings.HAIRCOLOR.ToString(), item.color);
             }
         }
         else
@@ -169,13 +179,14 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
-
-                s.PlayerSaveColor(SaveStrings.HAIRCOLOR.ToString(), item.color);
             }
         }
+        s.PlayerSaveInt(SaveStrings.HAIRCOLOR.ToString(), _valueHairColor);
     }
     public void SkinColor(int a)
     {
+        s = new SaveLoad();
+
         _valueBody += a;
 
         if (_valueBody > 2)
@@ -212,8 +223,6 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
-
-                s.PlayerSaveColor(SaveStrings.SKINCOLOR.ToString(), item.color);
             }
         }
         else
@@ -241,13 +250,15 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
-
-                s.PlayerSaveColor(SaveStrings.SKINCOLOR.ToString(), item.color);
             }
         }
+
+        s.PlayerSaveInt(SaveStrings.SKINCOLOR.ToString(), _valueBody);
     }
     public void ShirtColor(int a)
     {
+        s = new SaveLoad();
+
         _valueShirt += a;
 
         if (_valueShirt > 2)
@@ -282,8 +293,6 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
-
-            s.PlayerSaveColor(SaveStrings.SHIRTCOLOR.ToString(), _maleShirt.color);
         }
         else
         {
@@ -308,13 +317,13 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
-
-            s.PlayerSaveColor(SaveStrings.SHIRTCOLOR.ToString(), _femaleShirt.color);
         }
-
+        s.PlayerSaveInt(SaveStrings.SHIRTCOLOR.ToString(), _valueShirt);
     }
     public void LegsColor(int a)
     {
+        s = new SaveLoad();
+
         _valueLegs += a;
 
         if (_valueLegs > 2)
@@ -349,8 +358,6 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
-
-            s.PlayerSaveColor(SaveStrings.LEGCOLOR.ToString(), _maleLegs.color);
         }
         else
         {
@@ -375,10 +382,8 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
-
-            s.PlayerSaveColor(SaveStrings.LEGCOLOR.ToString(), _femaleLegs.color);
         }
-
+        s.PlayerSaveInt(SaveStrings.LEGCOLOR.ToString(), _valueLegs);
     }
     #endregion
 
@@ -397,4 +402,218 @@ public class CharCreationBehaviour : MonoBehaviour
         } 
     }
 
+    public void LoadCustomCharacter()
+    {
+        s = new SaveLoad();
+
+        if (s.LoadingBool(SaveStrings.FEMALE.ToString()))
+        {
+            _femaleBody.SetActive(true);
+            _maleBody.SetActive(false);
+
+            SelectItem(_femaleHair, PlayerPrefs.GetInt(SaveStrings.HAIR.ToString()));
+
+            SelectItem(_femaleFace, PlayerPrefs.GetInt(SaveStrings.FACE.ToString()));
+            SelectItem(_femaleEar, PlayerPrefs.GetInt(SaveStrings.FACE.ToString()));
+
+            foreach (var item in _femaleHair)
+            {
+                switch (PlayerPrefs.GetInt(SaveStrings.HAIRCOLOR.ToString()))
+                {
+                    case 0:
+                        {
+                            item.color = new Color32(255, 100, 150, 255);
+
+                            break;
+                        }
+                    case 1:
+                        {
+                            item.color = new Color32(0, 0, 0, 255);
+
+                            break;
+                        }
+                    case 2:
+                        {
+                            item.color = new Color32(255, 255, 255, 255);
+
+                            break;
+                        }
+                }
+            }
+
+            foreach (var item in _femaleSkin)
+            {
+                switch (PlayerPrefs.GetInt(SaveStrings.SKINCOLOR.ToString()))
+                {
+                    case 0:
+                        {
+                            item.color = new Color32(255, 245, 230, 255);
+
+                            break;
+                        }
+                    case 1:
+                        {
+                            item.color = new Color32(185, 141, 141, 255);
+
+                            break;
+                        }
+                    case 2:
+                        {
+                            item.color = new Color32(255, 218, 231, 255);
+
+                            break;
+                        }
+                }
+            }
+
+            switch (PlayerPrefs.GetInt(SaveStrings.SHIRTCOLOR.ToString()))
+            {
+                case 0:
+                    {
+                        _femaleShirt.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _femaleShirt.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _femaleShirt.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+
+            switch (PlayerPrefs.GetInt(SaveStrings.LEGCOLOR.ToString()))
+            {
+                case 0:
+                    {
+                        _femaleLegs.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _femaleLegs.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _femaleLegs.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+
+        }
+        else
+        {
+            _femaleBody.SetActive(false);
+            _maleBody.SetActive(true);
+
+            SelectItem(_maleHair, PlayerPrefs.GetInt(SaveStrings.HAIR.ToString()));
+
+            SelectItem(_maleFace, PlayerPrefs.GetInt(SaveStrings.FACE.ToString()));
+            SelectItem(_maleEar, PlayerPrefs.GetInt(SaveStrings.FACE.ToString()));
+
+            foreach (var item in _maleHair)
+            {
+                switch (PlayerPrefs.GetInt(SaveStrings.HAIRCOLOR.ToString()))
+                {
+                    case 0:
+                        {
+                            item.color = new Color32(255, 100, 150, 255);
+
+                            break;
+                        }
+                    case 1:
+                        {
+                            item.color = new Color32(0, 0, 0, 255);
+
+                            break;
+                        }
+                    case 2:
+                        {
+                            item.color = new Color32(255, 255, 255, 255);
+
+                            break;
+                        }
+                }
+            }
+
+            foreach (var item in _maleSkin)
+            {
+                switch (PlayerPrefs.GetInt(SaveStrings.SKINCOLOR.ToString()))
+                {
+                    case 0:
+                        {
+                            item.color = new Color32(255, 245, 230, 255);
+
+                            break;
+                        }
+                    case 1:
+                        {
+                            item.color = new Color32(185, 141, 141, 255);
+
+                            break;
+                        }
+                    case 2:
+                        {
+                            item.color = new Color32(255, 218, 231, 255);
+
+                            break;
+                        }
+                }
+            }
+
+            switch (PlayerPrefs.GetInt(SaveStrings.SHIRTCOLOR.ToString()))
+            {
+                case 0:
+                    {
+                        _maleShirt.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _maleShirt.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _maleShirt.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+
+            switch (PlayerPrefs.GetInt(SaveStrings.LEGCOLOR.ToString()))
+            {
+                case 0:
+                    {
+                        _maleLegs.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _maleLegs.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _maleLegs.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+        }
+    }
 }

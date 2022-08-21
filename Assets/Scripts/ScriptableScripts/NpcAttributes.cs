@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NPC Name", menuName = "Add NPC Attributes", order = 3)]
-public class NpcsAttributes : ScriptableObject
+public class NpcAttributes : ScriptableObject
 {
     [Header("CHARACTER BASIC INFO")]
 

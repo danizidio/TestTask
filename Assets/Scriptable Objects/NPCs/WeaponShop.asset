@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 4ba7dbdac91624d4f8d9c773ac25191c, type: 3}
   m_Name: NPC Name
   m_EditorClassIdentifier: Assembly-CSharp::NpcsAttributes
   _npcName: ShopGuy
   _npcPortrait: {fileID: 0}
   _npcDialogs:
-  - Hi!! how can i help you?
-  - Take a look on these sharpest blades on the earth!
+  - Hi! What can i do for you?
+  - Hi! Take a look on the best Weapons on this PLANET!
   _exhaustedDialog: []
