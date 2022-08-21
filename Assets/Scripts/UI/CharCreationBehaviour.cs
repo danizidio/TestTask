@@ -8,6 +8,7 @@ public class CharCreationBehaviour : MonoBehaviour
 
     [SerializeField] SpriteRenderer[] _femaleHair, _maleHair;
     [SerializeField] SpriteRenderer[] _femaleFace, _maleFace;
+    [SerializeField] SpriteRenderer[] _femaleEar, _maleEar;
     [SerializeField] SpriteRenderer[] _femaleSkin, _maleSkin;
 
     [SerializeField] SpriteRenderer _femaleShirt, _femaleLegs, _maleShirt, _maleLegs;
@@ -19,12 +20,8 @@ public class CharCreationBehaviour : MonoBehaviour
     private void Start()
     {
         _isFemale = false;
-        _valueHair = 0;
-        _valueHairColor = 0;
-        _valueFace = 0;
-        _valueBody = 0;
-        _valueShirt = 0;
-        _valueLegs = 0;
+        
+        GenderChange(_isFemale);
     }
     #region - UI Button Events
 
@@ -59,11 +56,11 @@ public class CharCreationBehaviour : MonoBehaviour
 
         if (!_isFemale)
         {
-            SelectItem(_maleHair);
+            SelectItem(_maleHair, _valueHair);
         }
         else
         {
-            SelectItem(_femaleHair);
+            SelectItem(_femaleHair, _valueHair);
         }
     }
 
@@ -82,11 +79,13 @@ public class CharCreationBehaviour : MonoBehaviour
 
         if (!_isFemale)
         {
-            SelectItem(_maleFace);
+            SelectItem(_maleFace, _valueFace);
+            SelectItem(_maleEar, _valueFace);
         }
         else
         {
-            SelectItem(_femaleFace);
+            SelectItem(_femaleFace, _valueFace);
+            SelectItem(_femaleEar, _valueFace);
         }
     }
 
@@ -239,27 +238,55 @@ public class CharCreationBehaviour : MonoBehaviour
             _valueShirt = 2;
         }
 
-        switch (_valueShirt)
+        if(!_isFemale)
         {
-            case 0:
-                {
-                    _maleShirt.color = new Color32(255, 255, 255, 255);
+            switch (_valueShirt)
+            {
+                case 0:
+                    {
+                        _maleShirt.color = new Color32(255, 255, 255, 255);
 
-                    break;
-                }
-            case 1:
-                {
-                    _maleShirt.color = new Color32(207, 38, 41, 255);
+                        break;
+                    }
+                case 1:
+                    {
+                        _maleShirt.color = new Color32(207, 38, 41, 255);
 
-                    break;
-                }
-            case 2:
-                {
-                    _maleShirt.color = new Color32(100, 0, 255, 255);
+                        break;
+                    }
+                case 2:
+                    {
+                        _maleShirt.color = new Color32(100, 0, 255, 255);
 
-                    break;
-                }
+                        break;
+                    }
+            }
         }
+        else
+        {
+            switch (_valueShirt)
+            {
+                case 0:
+                    {
+                        _femaleShirt.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _femaleShirt.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _femaleShirt.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+        }
+
     }
 
     public void LegsColor(int a)
@@ -275,36 +302,64 @@ public class CharCreationBehaviour : MonoBehaviour
             _valueLegs = 2;
         }
 
-        switch (_valueLegs)
+        if(!_isFemale)
         {
-            case 0:
-                {
-                    _maleLegs.color = new Color32(255, 255, 255, 255);
+            switch (_valueLegs)
+            {
+                case 0:
+                    {
+                        _maleLegs.color = new Color32(255, 255, 255, 255);
 
-                    break;
-                }
-            case 1:
-                {
-                    _maleLegs.color = new Color32(207, 38, 41, 255);
+                        break;
+                    }
+                case 1:
+                    {
+                        _maleLegs.color = new Color32(207, 38, 41, 255);
 
-                    break;
-                }
-            case 2:
-                {
-                    _maleLegs.color = new Color32(100, 0, 255, 255);
+                        break;
+                    }
+                case 2:
+                    {
+                        _maleLegs.color = new Color32(100, 0, 255, 255);
 
-                    break;
-                }
+                        break;
+                    }
+            }
         }
+        else
+        {
+            switch (_valueLegs)
+            {
+                case 0:
+                    {
+                        _femaleLegs.color = new Color32(255, 255, 255, 255);
+
+                        break;
+                    }
+                case 1:
+                    {
+                        _femaleLegs.color = new Color32(207, 38, 41, 255);
+
+                        break;
+                    }
+                case 2:
+                    {
+                        _femaleLegs.color = new Color32(100, 0, 255, 255);
+
+                        break;
+                    }
+            }
+        }
+
     }
     #endregion
 
 
-    void SelectItem(SpriteRenderer[] sr)
+    void SelectItem(SpriteRenderer[] sr, int value)
     {
         for (int n = 0; n < sr.Length; n++)
         {
-            if (n != _valueFace)
+            if (n != value)
             {
                 sr[n].gameObject.SetActive(false);
             }
