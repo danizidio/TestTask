@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using SaveLoadPlayerPrefs;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -23,10 +24,16 @@ public class PlayerBehaviour : MonoBehaviour
 
     private bool isRunning;
 
+    SaveLoad s;
+
+
     private void Start()
     {
-        _currentLife = PlayerAttribute.HealthPoints;
         rb = GetComponent<Rigidbody2D>();
+
+        CharCreationBehaviour.instance.LoadCustomCharacter();
+
+        _currentLife = PlayerAttribute.HealthPoints;
     }
 
     void LateUpdate()
