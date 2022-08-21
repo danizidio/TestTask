@@ -27,15 +27,18 @@ public class CharCreationBehaviour : MonoBehaviour
         instance = this;
     }
 
-     void Start()
-    {
-        //_isFemale = false;
-        
-        //GenderChange(_isFemale);
-    }
 
     #region - UI Button Events
 
+    public void FirstPersonalization()
+    {
+        s = new SaveLoad();
+
+        if (!PlayerPrefs.HasKey(SaveStrings.HAS_MADE_CHARACTER.ToString()))
+        {
+            s.PlayerSaveInt(SaveStrings.HAS_MADE_CHARACTER.ToString(), 1);
+        }
+    }
     public void GenderChange(bool a)
     {
         s = new SaveLoad();

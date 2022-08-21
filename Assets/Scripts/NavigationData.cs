@@ -56,6 +56,9 @@ public class NavigationData : MonoBehaviour
     [SerializeField] bool _fullScreen;
     public bool FullScreen { get { return _fullScreen; } set { _fullScreen = value; } }
 
+    [SerializeField] int _miscItems;
+    public int MiscItems { get { return _miscItems; } }
+
     private void Awake()
     {
         instance = this;
@@ -89,10 +92,11 @@ public class NavigationData : MonoBehaviour
             _saveLoad.PlayerSaveBool(SaveStrings.CHROMATIC_ABERRATION.ToString(), _chromaticAberration);
             _saveLoad.PlayerSaveBool(SaveStrings.FULLSCREEN.ToString(), _fullScreen);
             _saveLoad.PlayerSaveInt(SaveStrings.RESOLUTION.ToString(), 0);
+            _saveLoad.PlayerSaveInt(SaveStrings.MISC_ITEMS.ToString(), 0);
+            _saveLoad.PlayerSaveInt(SaveStrings.MONETARY_VALUE.ToString(), 0);
 
             PlayerPrefs.SetInt(SaveStrings.FIRSTUSE.ToString(), 1);
         }
-
         //IF HAS FIRST USE KEY THE VALUES CAME FROM PLAYERPREFS KEYS
         else
         {
@@ -100,6 +104,23 @@ public class NavigationData : MonoBehaviour
 
             _sfx = PlayerPrefs.GetFloat(SaveStrings.SFX.ToString());
 
+            try
+            {
+                int tempCoin = _saveLoad.LoadingCoins();
+
+                GameBehaviour gb = GameObject.FindGameObjectWithTag("GameBehaviour").GetComponent<GameBehaviour>();
+
+                gb.PlayerMoney = tempCoin;
+
+                gb.OnTakingCoins?.Invoke();
+                    
+            }
+            catch
+            {
+
+            }
+
+            _miscItems = PlayerPrefs.GetInt(SaveStrings.MISC_ITEMS.ToString());
 
             //BLOOM
             if (PlayerPrefs.GetString(SaveStrings.BLOOM.ToString()) == "True")
@@ -111,7 +132,6 @@ public class NavigationData : MonoBehaviour
                 _bloom = false;
             }
 
-
             //FILMGRAIN
             if (PlayerPrefs.GetString(SaveStrings.FILMGRAIN.ToString()) == "True")
             {
@@ -121,7 +141,6 @@ public class NavigationData : MonoBehaviour
             {
                 _filmGrain = false;
             }
-
 
             //CHROMATIC ABERRATION
             if (PlayerPrefs.GetString(SaveStrings.CHROMATIC_ABERRATION.ToString()) == "True")
@@ -133,7 +152,6 @@ public class NavigationData : MonoBehaviour
                 _chromaticAberration = false;
             }
 
-
             //FULLSCREEN
             if (PlayerPrefs.GetString(SaveStrings.FULLSCREEN.ToString()) == "True")
             {
@@ -143,7 +161,6 @@ public class NavigationData : MonoBehaviour
             {
                 _fullScreen = false;
             }
-
 
             //RESOLUTION
             switch (PlayerPrefs.GetInt(SaveStrings.RESOLUTION.ToString()))
@@ -175,7 +192,6 @@ public class NavigationData : MonoBehaviour
         OnSetChromAberration?.Invoke(_chromaticAberration);
         OnSetFilmGrain?.Invoke(_filmGrain);
     }
-
     
     public bool SetBloom(bool b)
     {
@@ -312,6 +328,16 @@ public class NavigationData : MonoBehaviour
         }
 
         return _sfx;
+    }
+
+    public int TakingMiscItems()
+    {
+        return _miscItems++;
+    }
+
+    public int CleanMiscItems()
+    {
+        return _miscItems = 0;
     }
 
     private void OnEnable()

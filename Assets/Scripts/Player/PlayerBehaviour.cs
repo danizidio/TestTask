@@ -14,10 +14,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] EquipmentAttributes[] _equipAttribute;
 
-    [SerializeField] GameObject[] _weapons;
+    [SerializeField] GameObject[] _femaleWeapons, _maleWeapons;
     public EquipmentAttributes[] EquipAttribute { get { return _equipAttribute; } }
 
-    [SerializeField] SpriteRenderer[] _lightArmorPieces, _heavyArmorPieces;
+    [SerializeField] SpriteRenderer[] _femaleLightArmorPieces, _maleLightArmorPieces, _femaleHeavyArmorPieces, _maleHeavyArmorPieces;
 
     int _currentLife;
     public int CurrentLife { get { return _currentLife; } set { _currentLife = value; } }
@@ -43,6 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         CharCreationBehaviour.instance.LoadCustomCharacter();
+
+        EquipsToUse();
 
         _canMove = true;
 
@@ -134,7 +136,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
     #endregion
 
-    void Attacking()
+    public void Attacking()
     {
         _anim.SetTrigger("ATTACK");
     }
@@ -144,6 +146,224 @@ public class PlayerBehaviour : MonoBehaviour
         return _canMove = b;
     }
 
+    public void EquipsToUse()
+    {
+        if (PlayerPrefs.HasKey(SaveStrings.ARMOR.ToString()))
+        {
+            int n = PlayerPrefs.GetInt(SaveStrings.ARMOR.ToString());
+
+            switch (n)
+            {
+                case 0:
+                    {
+                        foreach (var item in _femaleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+                        foreach (var item in _femaleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+
+                        foreach (var item in _maleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+                        foreach (var item in _maleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+
+                        break;
+                    }
+                case 1:
+                    {
+                        foreach (var item in _femaleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(true);
+                        }
+                        foreach (var item in _femaleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+
+                        foreach (var item in _maleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(true);
+                        }
+                        foreach (var item in _maleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+
+                        break;
+                    }
+                case 2:
+                    {
+                        foreach (var item in _femaleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+                        foreach (var item in _femaleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(true);
+                        }
+
+                        foreach (var item in _maleLightArmorPieces)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+                        foreach (var item in _maleHeavyArmorPieces)
+                        {
+                            item.gameObject.SetActive(true);
+                        }
+
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            s = new SaveLoad();
+
+            s.PlayerSaveInt(SaveStrings.ARMOR.ToString(), 0);
+
+            foreach (var item in _femaleLightArmorPieces)
+            {
+                item.gameObject.SetActive(false);
+            }
+            foreach (var item in _femaleHeavyArmorPieces)
+            {
+                item.gameObject.SetActive(false);
+            }
+
+            foreach (var item in _maleLightArmorPieces)
+            {
+                item.gameObject.SetActive(false);
+            }
+            foreach (var item in _maleHeavyArmorPieces)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+
+        if (PlayerPrefs.HasKey(SaveStrings.WEAPON.ToString()))
+        {
+            int n = PlayerPrefs.GetInt(SaveStrings.WEAPON.ToString());
+
+            switch (n)
+            {
+                case 0:
+                    {
+                        foreach (var item in _femaleWeapons)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+                        foreach (var item in _maleWeapons)
+                        {
+                            item.gameObject.SetActive(false);
+                        }
+
+                        break;
+                    }
+                case 1:
+                    {
+                        for (int i = 0; i < _femaleWeapons.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+                        for (int i = 0; i < _maleWeapons.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                _maleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _maleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+
+                        break;
+                    }
+                case 2:
+                    {
+                        for (int i = 0; i < _femaleWeapons.Length; i++)
+                        {
+                            if (i == 1)
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+                        for (int i = 0; i < _maleWeapons.Length; i++)
+                        {
+                            if (i == 1)
+                            {
+                                _maleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _maleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+
+                        break;
+                    }
+                case 3:
+                    {
+                        for (int i = 0; i < _femaleWeapons.Length; i++)
+                        {
+                            if (i == 2)
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _femaleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+                        for (int i = 0; i < _maleWeapons.Length; i++)
+                        {
+                            if (i == 2)
+                            {
+                                _maleWeapons[i].gameObject.SetActive(true);
+                            }
+                            else
+                            {
+                                _maleWeapons[i].gameObject.SetActive(false);
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            s = new SaveLoad();
+
+            s.PlayerSaveInt(SaveStrings.WEAPON.ToString(), 0);
+
+            foreach (var item in _femaleWeapons)
+            {
+                item.gameObject.SetActive(false);
+            }
+            foreach (var item in _maleWeapons)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    }
     private void OnDisable()
     {
         OnActing = null;

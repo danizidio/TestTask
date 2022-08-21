@@ -46,6 +46,8 @@ public class Npc : MonoBehaviour
         if (p != null)
         {
             collision.GetComponent<PlayerBehaviour>().OnActing += Talking;
+            collision.GetComponent<PlayerBehaviour>().OnActing -= collision.GetComponent<PlayerBehaviour>().Attacking;
+
             ShowInfoUI(true, "TALK");
         }
     }

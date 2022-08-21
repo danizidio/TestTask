@@ -1,10 +1,18 @@
 using UnityEngine;
 using StateMachine;
+using System;
 
 public class GameBehaviour : GamePlayBehaviour
 {
+    public static GameBehaviour instance;
+
+    public delegate void _onTakingCoins();
+    public _onTakingCoins OnTakingCoins;
 
     PlayerBehaviour _player;
+
+    [SerializeField] int _playerMoney;
+    public int PlayerMoney { get { return _playerMoney; } set { _playerMoney = value; } }
 
     private void Awake()
     {
@@ -13,6 +21,10 @@ public class GameBehaviour : GamePlayBehaviour
 
     private void Start()
     {
+        instance = this;
+
+        NavigationData.OnLoading?.Invoke();
+
         OnNextGameState(GamePlayStates.INITIALIZING);
     }
 
@@ -35,7 +47,8 @@ public class GameBehaviour : GamePlayBehaviour
                 }
             case GamePlayStates.START:
                 {
-                    NavigationData.OnLoading?.Invoke();
+
+
 
                     OnNextGameState.Invoke(GamePlayStates.GAMEPLAY);
 
@@ -75,10 +88,17 @@ public class GameBehaviour : GamePlayBehaviour
         }
     }
 
+    public void UpdateCoins()
+    {
+        GameObject temp = GameObject.FindGameObjectWithTag("Currency Show");
+        temp.GetComponent<TMPro.TMP_Text>().text = PlayerMoney.ToString();
+    }
+
     private void OnEnable()
     {
         OnNextGameState += NextGameStates;
         _player.OnPausing += PauseGame;
+        OnTakingCoins += UpdateCoins;
     }
     private void OnDisable()
     {

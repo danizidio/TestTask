@@ -29,6 +29,7 @@ public class Portal : MonoBehaviour
         if (p != null)
         {
             collision.GetComponent<PlayerBehaviour>().OnActing += MovingNextScene;
+            collision.GetComponent<PlayerBehaviour>().OnActing -= collision.GetComponent<PlayerBehaviour>().Attacking;
             ShowInfoUI(true, "ENTER");
         }
     }

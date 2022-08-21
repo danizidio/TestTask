@@ -12,6 +12,8 @@ TagManager:
   - BloomFX
   - NavigationData
   - Global Light
+  - Currency Show
+  - GameBehaviour
   layers:
   - Default
   - TransparentFX
