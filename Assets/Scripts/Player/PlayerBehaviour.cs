@@ -8,21 +8,28 @@ public class PlayerBehaviour : MonoBehaviour
     public event Action OnActing;
     public event Action OnPausing;
 
-    [SerializeField] private PlayerAttributes _playerAttribute;
+    [SerializeField] PlayerAttributes _playerAttribute;
 
     public PlayerAttributes PlayerAttribute { get { return _playerAttribute; } }
+
+    [SerializeField] EquipmentAttributes[] _equipAttribute;
+    public EquipmentAttributes[] EquipAttribute { get { return _equipAttribute; } }
+
+    [SerializeField] SpriteRenderer[] _lightArmorPieces, _heavyArmorPieces;
 
     int _currentLife;
     public int CurrentLife { get { return _currentLife; } set { _currentLife = value; } }
 
     Rigidbody2D rb;
 
-    float moveSpeed;
+    float _moveSpeed;
 
-    private float moveX;
-    private float moveY;
+    private float _moveX;
+    private float _moveY;
 
-    private bool isRunning;
+    private bool _isRunning;
+
+    bool _canMove;
 
     SaveLoad s;
 
@@ -33,38 +40,43 @@ public class PlayerBehaviour : MonoBehaviour
 
         CharCreationBehaviour.instance.LoadCustomCharacter();
 
+        _canMove = true;
+
         _currentLife = PlayerAttribute.HealthPoints;
     }
 
     void LateUpdate()
     {
-        if (!isRunning)
+        if (!_isRunning)
         {
-            isRunning = false;
-            moveSpeed = PlayerAttribute.MoveSpeed;
+            _isRunning = false;
+            _moveSpeed = PlayerAttribute.MoveSpeed;
         }
 
-        rb.velocity = new Vector2(moveX * moveSpeed, moveY * moveSpeed);
+        rb.velocity = new Vector2(_moveX * _moveSpeed, _moveY * _moveSpeed);
     }
 
     #region - InputManager Buttons
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveX = context.ReadValue<Vector2>().x;
-        moveY = context.ReadValue<Vector2>().y;
+        if(_canMove)
+        {
+            _moveX = context.ReadValue<Vector2>().x;
+            _moveY = context.ReadValue<Vector2>().y;
+        }
     }
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        isRunning = context.ReadValueAsButton();
+        _isRunning = context.ReadValueAsButton();
 
-        if (isRunning)
+        if (_isRunning)
         {
-            moveSpeed = PlayerAttribute.MoveSpeed * PlayerAttribute.MoveSpeed;
+            _moveSpeed = PlayerAttribute.MoveSpeed * PlayerAttribute.MoveSpeed;
         }
         else
         {
-            moveSpeed = PlayerAttribute.MoveSpeed;
+            _moveSpeed = PlayerAttribute.MoveSpeed;
         }
     }
 
@@ -86,6 +98,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     #endregion
 
+    public bool CanMove(bool b)
+    {
+        return _canMove;
+    }
 
     private void OnDisable()
     {

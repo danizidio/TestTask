@@ -54,11 +54,14 @@ TagManager:
   - name: SCENARIO
     uniqueID: 4074588155
     locked: 0
-  - name: PLAYER
-    uniqueID: 3962917009
-    locked: 0
   - name: NPCS
     uniqueID: 4016302247
+    locked: 0
+  - name: INTERMEDIARY_SCENARIO
+    uniqueID: 2560805999
+    locked: 0
+  - name: PLAYER
+    uniqueID: 3962917009
     locked: 0
   - name: ENEMIES
     uniqueID: 2389376475

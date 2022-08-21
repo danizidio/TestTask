@@ -29,9 +29,9 @@ public class CharCreationBehaviour : MonoBehaviour
 
      void Start()
     {
-        _isFemale = false;
+        //_isFemale = false;
         
-        GenderChange(_isFemale);
+        //GenderChange(_isFemale);
     }
 
     #region - UI Button Events
