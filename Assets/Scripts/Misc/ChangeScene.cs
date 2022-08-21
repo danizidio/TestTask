@@ -33,17 +33,31 @@ public class ChangeScene : Timer
         SetTimer(timer, () => StartCoroutine(LoadingNextScene(_nextSceneName)));
     }
 
-    //BUTTON METHOD
+    #region - Button Methods
+
     public void SelectingNextScene(string sceneName)
     {
         StartCoroutine(LoadingNextScene(sceneName));
     }
 
-    //BUTTON METHOD
+    public void StartGame()
+    {
+        
+        if(PlayerPrefs.HasKey(SaveLoadPlayerPrefs.SaveStrings.HAS_MADE_CHARACTER.ToString()))
+        {
+            StartCoroutine(LoadingNextScene("STORE"));
+        }
+        else
+        {
+            StartCoroutine(LoadingNextScene("CHARACTER_CREATION"));
+        }
+    }
+
     public void ExitGame()
     {
         Application.Quit();
     }
+    #endregion
 
     public IEnumerator LoadingNextScene(string sceneName)
     {
@@ -51,8 +65,6 @@ public class ChangeScene : Timer
 
         while (!loading.isDone)
         {           
-            //ANIMACAO PARA LOADING
-
             yield return null;
         }
     }

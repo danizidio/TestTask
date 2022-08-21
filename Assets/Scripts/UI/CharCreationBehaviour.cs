@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SaveLoadPlayerPrefs;
 
 public class CharCreationBehaviour : MonoBehaviour
 {
@@ -17,11 +18,20 @@ public class CharCreationBehaviour : MonoBehaviour
 
     int _valueHair, _valueFace, _valueBody, _valueShirt, _valueLegs, _valueHairColor;
 
+    SaveLoad s;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     private void Start()
     {
         _isFemale = false;
         
         GenderChange(_isFemale);
+
+        s = new SaveLoad();
     }
     #region - UI Button Events
 
@@ -39,8 +49,9 @@ public class CharCreationBehaviour : MonoBehaviour
         }
 
         _isFemale = a;
-    }
 
+        s.PlayerSaveBool(SaveStrings.FEMALE.ToString(), _isFemale);
+    }
     public void HairChange(int a)
     {
         _valueHair += a;
@@ -62,8 +73,9 @@ public class CharCreationBehaviour : MonoBehaviour
         {
             SelectItem(_femaleHair, _valueHair);
         }
-    }
 
+        s.PlayerSaveInt(SaveStrings.HAIR.ToString(), _valueHair);
+    }
     public void FaceChange(int a)
     {
         _valueFace += a;
@@ -87,8 +99,9 @@ public class CharCreationBehaviour : MonoBehaviour
             SelectItem(_femaleFace, _valueFace);
             SelectItem(_femaleEar, _valueFace);
         }
-    }
 
+        s.PlayerSaveInt(SaveStrings.FACE.ToString(), _valueFace);
+    }
     public void HairColor(int a)
     {
         _valueHairColor += a;
@@ -127,6 +140,8 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
+
+                s.PlayerSaveColor(SaveStrings.HAIRCOLOR.ToString(), item.color);
             }
         }
         else
@@ -154,6 +169,8 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
+
+                s.PlayerSaveColor(SaveStrings.HAIRCOLOR.ToString(), item.color);
             }
         }
     }
@@ -195,6 +212,8 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
+
+                s.PlayerSaveColor(SaveStrings.SKINCOLOR.ToString(), item.color);
             }
         }
         else
@@ -222,6 +241,8 @@ public class CharCreationBehaviour : MonoBehaviour
                             break;
                         }
                 }
+
+                s.PlayerSaveColor(SaveStrings.SKINCOLOR.ToString(), item.color);
             }
         }
     }
@@ -261,6 +282,8 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
+
+            s.PlayerSaveColor(SaveStrings.SHIRTCOLOR.ToString(), _maleShirt.color);
         }
         else
         {
@@ -285,10 +308,11 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
+
+            s.PlayerSaveColor(SaveStrings.SHIRTCOLOR.ToString(), _femaleShirt.color);
         }
 
     }
-
     public void LegsColor(int a)
     {
         _valueLegs += a;
@@ -325,6 +349,8 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
+
+            s.PlayerSaveColor(SaveStrings.LEGCOLOR.ToString(), _maleLegs.color);
         }
         else
         {
@@ -349,11 +375,12 @@ public class CharCreationBehaviour : MonoBehaviour
                         break;
                     }
             }
+
+            s.PlayerSaveColor(SaveStrings.LEGCOLOR.ToString(), _femaleLegs.color);
         }
 
     }
     #endregion
-
 
     void SelectItem(SpriteRenderer[] sr, int value)
     {
@@ -369,4 +396,5 @@ public class CharCreationBehaviour : MonoBehaviour
             }
         } 
     }
+
 }

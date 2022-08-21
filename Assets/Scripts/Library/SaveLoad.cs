@@ -10,6 +10,16 @@ namespace SaveLoadPlayerPrefs
         HIGHSCORE,
         PLAYER_LEVEL,
         CHARACTER_PREFS,
+        
+        //CHARACTER CUSTOMIZATION
+        HAS_MADE_CHARACTER,
+        FEMALE,
+        HAIR,
+        FACE,
+        HAIRCOLOR,
+        SKINCOLOR,
+        SHIRTCOLOR,
+        LEGCOLOR,
 
         //MENU PREFS
         BLOOM,
@@ -74,6 +84,14 @@ namespace SaveLoadPlayerPrefs
         public void PlayerSaveBool(string str, bool value)
         {
             PlayerPrefs.SetString(str, value.ToString());
+            PlayerPrefs.Save();
+        }
+
+        public void PlayerSaveColor(string str, Color32 clr)
+        {
+            string colorHex = ColorUtility.ToHtmlStringRGB(clr);
+
+            PlayerPrefs.SetString(str, colorHex.ToString());
             PlayerPrefs.Save();
         }
     }

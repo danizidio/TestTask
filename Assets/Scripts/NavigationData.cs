@@ -32,6 +32,8 @@ public class NavigationData : MonoBehaviour
     public delegate void _onLoadInventory();
     public static _onLoadInventory OnLoadInventory;
 
+    public static event Action OnSaveCharacter;
+
     GameObject[] Datas;
 
     [SerializeField] int _targetFrameRate;
