@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/STORE.unity
     guid: e167dbf4be6e0c24e85f918e40cc1713
   - enabled: 1
-    path: Assets/Scenes/GAMEPLAY.unity
+    path: Assets/Scenes/EXPLORATION_GAMEPLAY.unity
     guid: 443c3e03049e98343b39ae9fe3fb79ff
   m_configObjects: {}

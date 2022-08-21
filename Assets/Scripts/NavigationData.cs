@@ -170,6 +170,10 @@ public class NavigationData : MonoBehaviour
                     }
             }
         }
+
+        OnSetBloom?.Invoke(_bloom);
+        OnSetChromAberration?.Invoke(_chromaticAberration);
+        OnSetFilmGrain?.Invoke(_filmGrain);
     }
 
     
@@ -191,9 +195,16 @@ public class NavigationData : MonoBehaviour
             }
         }
 
-        Toggle t = GameObject.FindGameObjectWithTag("BloomFX").GetComponent<Toggle>();
+        try
+        {
+            Toggle t = GameObject.FindGameObjectWithTag("BloomFX").GetComponent<Toggle>();
 
-        t.isOn = b;
+            if (t != null) t.isOn = b;
+        }
+        catch
+        {
+
+        }
 
         return _bloom = b;
     }
@@ -209,9 +220,16 @@ public class NavigationData : MonoBehaviour
             filmGrainVolume.active = b;
         }
 
-        Toggle t = GameObject.FindGameObjectWithTag("FilmGrainFX").GetComponent<Toggle>();
+        try
+        {
+            Toggle t = GameObject.FindGameObjectWithTag("FilmGrainFX").GetComponent<Toggle>();
 
-        t.isOn = b;
+            if (t != null) t.isOn = b;
+        }
+        catch
+        {
+
+        }
 
         return _filmGrain = b;
     }
@@ -226,10 +244,17 @@ public class NavigationData : MonoBehaviour
         {
             chromaticAberrationVolume.active = b;
         }
+        
+        try
+        {
+            Toggle t = GameObject.FindGameObjectWithTag("ChromaFX").GetComponent<Toggle>();
 
-        Toggle t = GameObject.FindGameObjectWithTag("ChromaFX").GetComponent<Toggle>();
+            if (t != null) t.isOn = b;
+        }
+        catch
+        {
 
-        t.isOn = b;
+        }
 
         return _chromaticAberration = b;
     }

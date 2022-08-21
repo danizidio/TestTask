@@ -11,6 +11,7 @@ TagManager:
   - VolumeSound
   - BloomFX
   - NavigationData
+  - Global Light
   layers:
   - Default
   - TransparentFX

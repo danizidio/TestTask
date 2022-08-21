@@ -13,6 +13,8 @@ public class PlayerBehaviour : MonoBehaviour
     public PlayerAttributes PlayerAttribute { get { return _playerAttribute; } }
 
     [SerializeField] EquipmentAttributes[] _equipAttribute;
+
+    [SerializeField] GameObject[] _weapons;
     public EquipmentAttributes[] EquipAttribute { get { return _equipAttribute; } }
 
     [SerializeField] SpriteRenderer[] _lightArmorPieces, _heavyArmorPieces;
@@ -29,10 +31,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private bool _isRunning;
 
-    bool _canMove;
+    [SerializeField] bool _canMove;
+    public bool canMove { get { return _canMove; } }
 
     SaveLoad s;
 
+    Animator _anim;
 
     private void Start()
     {
@@ -43,14 +47,32 @@ public class PlayerBehaviour : MonoBehaviour
         _canMove = true;
 
         _currentLife = PlayerAttribute.HealthPoints;
+
+        _anim = GetComponentInChildren<Animator>();
     }
 
     void LateUpdate()
     {
+        if (OnActing == null)
+        {
+            OnActing = Attacking;
+        }
+
         if (!_isRunning)
         {
             _isRunning = false;
             _moveSpeed = PlayerAttribute.MoveSpeed;
+        }
+
+        if (_moveX == 0 && _moveY == 0)
+        {
+            _anim.SetBool("WALK", false);
+        }
+
+        if (_canMove == false)
+        {
+            _moveX = 0;
+            _moveY = 0;
         }
 
         rb.velocity = new Vector2(_moveX * _moveSpeed, _moveY * _moveSpeed);
@@ -59,10 +81,25 @@ public class PlayerBehaviour : MonoBehaviour
     #region - InputManager Buttons
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(_canMove)
+        if (_moveX == 1)
         {
+            _anim.SetBool("WALK", true);
+            transform.localScale = new Vector3(1, 1, 0);
+        }
+        if (_moveX == -1)
+        {
+            _anim.SetBool("WALK", true);
+            transform.localScale = new Vector3(-1, 1, 0);
+        }
+
+        if (_canMove)
+        {
+
+
             _moveX = context.ReadValue<Vector2>().x;
             _moveY = context.ReadValue<Vector2>().y;
+
+
         }
     }
 
@@ -95,12 +132,16 @@ public class PlayerBehaviour : MonoBehaviour
             OnPausing?.Invoke();
         }
     }
-
     #endregion
+
+    void Attacking()
+    {
+        _anim.SetTrigger("ATTACK");
+    }
 
     public bool CanMove(bool b)
     {
-        return _canMove;
+        return _canMove = b;
     }
 
     private void OnDisable()

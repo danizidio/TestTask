@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
-using System;
 
 public class GameBehaviour : GamePlayBehaviour
 {
@@ -38,6 +35,7 @@ public class GameBehaviour : GamePlayBehaviour
                 }
             case GamePlayStates.START:
                 {
+                    NavigationData.OnLoading?.Invoke();
 
                     OnNextGameState.Invoke(GamePlayStates.GAMEPLAY);
 
