@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
+using System;
 
 public class GameBehaviour : GamePlayBehaviour
 {
+
+    PlayerBehaviour _player;
+
+    private void Awake()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+    }
 
     private void Start()
     {
@@ -25,7 +33,7 @@ public class GameBehaviour : GamePlayBehaviour
             case GamePlayStates.INITIALIZING:
                 {
                     CameraBehaviour.OnSearchingPlayer?.Invoke();
-
+                    
                     break;
                 }
             case GamePlayStates.START:
@@ -39,15 +47,11 @@ public class GameBehaviour : GamePlayBehaviour
                 {
                     Time.timeScale = 1;
 
-                    PauseGame();
-
                     break;
                 }
             case GamePlayStates.PAUSE:
                 {
                     Time.timeScale = 0;
-
-                    PauseGame();
 
                     break;
                 }
@@ -60,18 +64,27 @@ public class GameBehaviour : GamePlayBehaviour
         }
     }
 
+    //METHOD TO BE CALLED ON PLAYER ACTION 'ON PAUSING'
     void PauseGame()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GetCurrentGameState() != GamePlayStates.PAUSE)
         {
-            if(GetCurrentGameState() != GamePlayStates.PAUSE)
-            {
-                OnNextGameState?.Invoke(GamePlayStates.PAUSE);
-            }
-            else
-            {
-                OnNextGameState?.Invoke(GamePlayStates.GAMEPLAY);
-            }
+            OnNextGameState?.Invoke(GamePlayStates.PAUSE);
         }
+        else
+        {
+            OnNextGameState?.Invoke(GamePlayStates.GAMEPLAY);
+        }
+    }
+
+    private void OnEnable()
+    {
+        OnNextGameState += NextGameStates;
+        _player.OnPausing += PauseGame;
+    }
+    private void OnDisable()
+    {
+        OnNextGameState -= NextGameStates;
+        _player.OnPausing -= PauseGame;
     }
 }

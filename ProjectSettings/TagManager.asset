@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FilmGrainFX
+  - Global Volume
+  - ChromaFX
+  - VolumeSFX
+  - VolumeSound
+  - BloomFX
+  - NavigationData
   layers:
   - Default
   - TransparentFX
@@ -40,4 +47,25 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BACKGROUND
+    uniqueID: 1930820903
+    locked: 0
+  - name: SCENARIO
+    uniqueID: 4074588155
+    locked: 0
+  - name: PLAYER
+    uniqueID: 3962917009
+    locked: 0
+  - name: NPCS
+    uniqueID: 4016302247
+    locked: 0
+  - name: ENEMIES
+    uniqueID: 2389376475
+    locked: 0
+  - name: FOREGROUND
+    uniqueID: 4105749819
+    locked: 0
+  - name: UI
+    uniqueID: 519308987
     locked: 0

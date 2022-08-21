@@ -1751,8 +1751,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1748729121}
         m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
-        m_MethodName: SelectingNextScene
-        m_Mode: 5
+        m_MethodName: StartGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3864,7 +3864,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 80d1c1323e8420246a09cb247dd5dd91, type: 2}
+  sharedProfile: {fileID: 11400000, guid: edec268d0e06c9241b807e06b9abd4dc, type: 2}
 --- !u!1 &880838286
 GameObject:
   m_ObjectHideFlags: 0
