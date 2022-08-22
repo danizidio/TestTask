@@ -38,6 +38,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     Animator _anim;
 
+    [SerializeField] GameObject _txtAction;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -70,6 +72,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             _anim.SetBool("WALK", false);
         }
+        else
+        {
+            _anim.SetBool("WALK", true);
+        }
 
         if (_canMove == false)
         {
@@ -85,23 +91,17 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_moveX == 1)
         {
-            _anim.SetBool("WALK", true);
             transform.localScale = new Vector3(1, 1, 0);
         }
         if (_moveX == -1)
         {
-            _anim.SetBool("WALK", true);
             transform.localScale = new Vector3(-1, 1, 0);
         }
 
         if (_canMove)
         {
-
-
             _moveX = context.ReadValue<Vector2>().x;
             _moveY = context.ReadValue<Vector2>().y;
-
-
         }
     }
 
@@ -367,5 +367,29 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnDisable()
     {
         OnActing = null;
+    }
+
+    public void ShowInfoUI(bool show, string txt)
+    {
+        _txtAction.SetActive(show);
+        _txtAction.GetComponentInChildren<TMPro.TMP_Text>().text = txt;
+    }
+
+    public void ReceiveDamage(int atk)
+    {
+        int damage = atk - PlayerAttribute.DefenseArmor;
+        CurrentLife -= damage;
+
+        //ShowInfoUI(true, damage.ToString());
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        EnemyBehaviour e = collision.gameObject.GetComponent<EnemyBehaviour>();
+
+        if(e != null)
+        {
+            e.ReceiveDamage(PlayerAttribute.AtkStrength);
+        }
     }
 }

@@ -15,6 +15,6 @@ MonoBehaviour:
   _healthPoints: 10
   _xpPoints: 5
   _maxMoney: 25
-  _atkStrength: 5
-  _defenseArmor: 5
-  _moveSpeed: 1
+  _atkStrength: 10
+  _defenseArmor: 1
+  _moveSpeed: 2

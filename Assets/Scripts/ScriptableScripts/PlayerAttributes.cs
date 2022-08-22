@@ -12,12 +12,12 @@ public class PlayerAttributes : ScriptableObject
     public int HealthPoints { get { return _healthPoints; } }
 
     [Tooltip("ATTACK STRENGTH")]
-    [SerializeField] float _atkStrength;
-    public float AtkStrength { get { return _atkStrength; } }
+    [SerializeField] int _atkStrength;
+    public int AtkStrength { get { return _atkStrength; } }
 
     [Tooltip("ARMOR TO RESIST ATTACKS")]
-    [SerializeField] float _defenseArmor;
-    public float DefenseArmor { get { return _defenseArmor; } }
+    [SerializeField] int _defenseArmor;
+    public int DefenseArmor { get { return _defenseArmor; } }
 
     [Tooltip("MOVE SPEED")]
     [SerializeField] float _moveSpeed;

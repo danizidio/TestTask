@@ -47,9 +47,6 @@ public class GameBehaviour : GamePlayBehaviour
                 }
             case GamePlayStates.START:
                 {
-
-
-
                     OnNextGameState.Invoke(GamePlayStates.GAMEPLAY);
 
                     break;
