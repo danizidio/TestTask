@@ -71,7 +71,6 @@ public class NavigationData : MonoBehaviour
 
         if (Datas.Length > 1)
         {
-            Debug.LogFormat("Asset NAVDATA : Destroyed " + Datas[1].name);
             Destroy(Datas[1]);
         }
 
