@@ -23,6 +23,6 @@ public class EquipmentAttributes : ScriptableObject
 
     [Header("MAIN ATTRIBUTE")]
     [Tooltip("EQUIPMENT STRENGTH - ATTACK MODIFIER FOR WEAPONS, DEFENSE MODIFIER FOR ARMOR")]
-    [SerializeField] float _equipStrength;
-    public float EquipStrength { get { return _equipStrength; } }
+    [SerializeField] int _equipStrength;
+    public int EquipStrength { get { return _equipStrength; } }
 }

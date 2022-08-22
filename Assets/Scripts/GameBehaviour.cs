@@ -11,6 +11,8 @@ public class GameBehaviour : GamePlayBehaviour
 
     PlayerBehaviour _player;
 
+    [SerializeField] GameObject _pauseMenu, _gameOverMenu;
+
     [SerializeField] int _playerMoney;
     public int PlayerMoney { get { return _playerMoney; } set { _playerMoney = value; } }
 
@@ -41,15 +43,15 @@ public class GameBehaviour : GamePlayBehaviour
         {
             case GamePlayStates.INITIALIZING:
                 {
+                    _gameOverMenu.SetActive(false);
+                    _pauseMenu.SetActive(false);
+
                     CameraBehaviour.OnSearchingPlayer?.Invoke();
                     
                     break;
                 }
             case GamePlayStates.START:
                 {
-
-
-
                     OnNextGameState.Invoke(GamePlayStates.GAMEPLAY);
 
                     break;
@@ -68,6 +70,8 @@ public class GameBehaviour : GamePlayBehaviour
                 }
             case GamePlayStates.GAMEOVER:
                 {
+                    _gameOverMenu.SetActive(true);
+
                     Time.timeScale = 0;
 
                     break;
@@ -76,14 +80,19 @@ public class GameBehaviour : GamePlayBehaviour
     }
 
     //METHOD TO BE CALLED ON PLAYER ACTION 'ON PAUSING'
-    void PauseGame()
+    //METHOD TO BE CALLED ALSO ON BUTTON EVENT
+    public void PauseGame()
     {
         if (GetCurrentGameState() != GamePlayStates.PAUSE)
         {
+            _pauseMenu.SetActive(true);
+
             OnNextGameState?.Invoke(GamePlayStates.PAUSE);
         }
         else
         {
+            _pauseMenu.SetActive(false);
+
             OnNextGameState?.Invoke(GamePlayStates.GAMEPLAY);
         }
     }

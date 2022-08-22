@@ -24,12 +24,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     Rigidbody2D rb;
 
+    int _atkModifier, _defModifier;
     float _moveSpeed;
+    float _moveX;
+    float _moveY;
 
-    private float _moveX;
-    private float _moveY;
-
-    private bool _isRunning;
+    bool _isRunning;
 
     [SerializeField] bool _canMove;
     public bool canMove { get { return _canMove; } }
@@ -37,6 +37,10 @@ public class PlayerBehaviour : MonoBehaviour
     SaveLoad s;
 
     Animator _anim;
+
+    [SerializeField] GameObject _txtAction;
+
+    LifeBar _lifeBar;
 
     private void Start()
     {
@@ -51,6 +55,15 @@ public class PlayerBehaviour : MonoBehaviour
         _currentLife = PlayerAttribute.HealthPoints;
 
         _anim = GetComponentInChildren<Animator>();
+
+        try
+        {
+            _lifeBar = GameObject.FindGameObjectWithTag("LifeBar").GetComponent<LifeBar>();
+        }
+        catch
+        {
+
+        }
     }
 
     void LateUpdate()
@@ -70,6 +83,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             _anim.SetBool("WALK", false);
         }
+        else
+        {
+            _anim.SetBool("WALK", true);
+        }
 
         if (_canMove == false)
         {
@@ -85,23 +102,17 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_moveX == 1)
         {
-            _anim.SetBool("WALK", true);
             transform.localScale = new Vector3(1, 1, 0);
         }
         if (_moveX == -1)
         {
-            _anim.SetBool("WALK", true);
             transform.localScale = new Vector3(-1, 1, 0);
         }
 
         if (_canMove)
         {
-
-
             _moveX = context.ReadValue<Vector2>().x;
             _moveY = context.ReadValue<Vector2>().y;
-
-
         }
     }
 
@@ -196,6 +207,8 @@ public class PlayerBehaviour : MonoBehaviour
                             item.gameObject.SetActive(false);
                         }
 
+                        _defModifier = PlayerAttribute.DefenseArmor + EquipAttribute[0].EquipStrength;
+
                         break;
                     }
                 case 2:
@@ -217,6 +230,8 @@ public class PlayerBehaviour : MonoBehaviour
                         {
                             item.gameObject.SetActive(true);
                         }
+
+                        _defModifier = PlayerAttribute.DefenseArmor + EquipAttribute[1].EquipStrength;
 
                         break;
                     }
@@ -245,6 +260,8 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 item.gameObject.SetActive(false);
             }
+
+            _defModifier = PlayerAttribute.DefenseArmor;
         }
 
         if (PlayerPrefs.HasKey(SaveStrings.WEAPON.ToString()))
@@ -264,6 +281,8 @@ public class PlayerBehaviour : MonoBehaviour
                             item.gameObject.SetActive(false);
                         }
 
+                        _atkModifier = PlayerAttribute.AtkStrength;
+
                         break;
                     }
                 case 1:
@@ -273,6 +292,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 0)
                             {
                                 _femaleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _femaleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -284,6 +305,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 0)
                             {
                                 _maleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _maleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -300,6 +323,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 1)
                             {
                                 _femaleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _femaleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -311,6 +336,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 1)
                             {
                                 _maleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _maleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -327,6 +354,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 2)
                             {
                                 _femaleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _femaleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -338,6 +367,8 @@ public class PlayerBehaviour : MonoBehaviour
                             if (i == 2)
                             {
                                 _maleWeapons[i].gameObject.SetActive(true);
+
+                                _atkModifier = PlayerAttribute.AtkStrength + _maleWeapons[i].GetComponent<EquipmentPerks>().EquipAttributes.EquipStrength;
                             }
                             else
                             {
@@ -364,8 +395,53 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
     }
+
     private void OnDisable()
     {
         OnActing = null;
+    }
+
+    public void ShowInfoUI(bool show, string txt)
+    {
+        _txtAction.SetActive(show);
+        _txtAction.GetComponentInChildren<TMPro.TMP_Text>().text = txt;
+    }
+
+    public void ReceiveDamage(int atk)
+    {
+        int damage = atk - _defModifier;
+
+        CurrentLife -= damage;
+
+        _lifeBar.onUpdateLifeBar(CurrentLife, PlayerAttribute.HealthPoints);
+
+        if(CurrentLife <= 0)
+        {
+            GameBehaviour.OnNextGameState(GamePlayStates.GAMEOVER);
+        }
+
+        if(transform.localScale.x == 1)
+        {
+            rb.AddForce(new Vector2(-100 ,0), ForceMode2D.Impulse);
+        }
+
+        if (transform.localScale.x == -1)
+        {
+            rb.AddForce(new Vector2(100, 0), ForceMode2D.Impulse);
+        }
+
+        _anim.SetTrigger("DAMAGED");
+
+        //ShowInfoUI(true, damage.ToString());
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        EnemyBehaviour e = collision.gameObject.GetComponent<EnemyBehaviour>();
+
+        if(e != null)
+        {
+            e.ReceiveDamage(_atkModifier);
+        }
     }
 }
