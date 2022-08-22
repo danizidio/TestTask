@@ -22,7 +22,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     float _spd;
 
-    [SerializeField] GameObject _txtAction;
+    [SerializeField] float _chanceToGiveItem;
+
+    [SerializeField] GameObject _item;
 
     private void Start()
     {
@@ -48,11 +50,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    public void ShowInfoUI(bool show, string txt)
-    {
-        _txtAction.SetActive(show);
-        _txtAction.GetComponentInChildren<TMPro.TMP_Text>().text = txt;
-    }
 
     public void ReceiveDamage(int atk)
     {
@@ -63,10 +60,25 @@ public class EnemyBehaviour : MonoBehaviour
         {
             _anim.Play("Death");
         }
-
-        //ShowInfoUI(true, damage.ToString());
     }
+    public void GiveItem()
+    {
+        float value = Random.value;
 
+        if (value <= _chanceToGiveItem)
+        {
+            Instantiate(_item, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        }
+
+        float value2 = Random.value;
+
+        if(value2 <= _chanceToGiveItem)
+        {
+            GameBehaviour.instance.PlayerMoney += Random.Range(1, _enemyAttributes.MaxMoney);
+
+            GameBehaviour.instance.OnTakingCoins?.Invoke();
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -180,6 +180,8 @@ GameObject:
   - component: {fileID: 1900164094004704044}
   - component: {fileID: 1262408540596630703}
   - component: {fileID: 6950769062652333011}
+  - component: {fileID: 1345495407036483951}
+  - component: {fileID: 1345495407036483955}
   m_Layer: 0
   m_Name: Jelly Blue
   m_TagString: Enemy
@@ -261,3 +263,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1345495407036483951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7381211082368999872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2990dc46327837243905c951ee0d6a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyAttributes: {fileID: 11400000, guid: fa30b9ddfe1322943a8e18d2f47bd254, type: 2}
+  _currentLife: 0
+  _distanceToAttack: 5
+  _bufferDistance: 15
+  _chanceToGiveItem: 0
+  _item: {fileID: 6852227662856516429, guid: 0c5b54d8da42e1c48bd64d8959410748, type: 3}
+--- !u!114 &1345495407036483955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7381211082368999872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34498afd7da91e949b115a389f536e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
