@@ -28,6 +28,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         _player = GameObject.FindGameObjectWithTag("Player").transform;
 
         _spd = _enemyAttributes.MoveSpeed;
@@ -58,7 +60,19 @@ public class EnemyBehaviour : MonoBehaviour
 
         if(CurrentLife <= 0)
         {
+            GiveItem();
+
             _anim.Play("Death");
+        }
+
+        if (_player.localScale.x == 1)
+        {
+            rb.AddForce(new Vector2(5, 0), ForceMode2D.Impulse);
+        }
+
+        if (_player.localScale.x == -1)
+        {
+            rb.AddForce(new Vector2(-5, 0), ForceMode2D.Impulse);
         }
     }
     public void GiveItem()

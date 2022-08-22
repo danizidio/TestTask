@@ -15,6 +15,7 @@ TagManager:
   - Currency Show
   - GameBehaviour
   - Enemy
+  - LifeBar
   layers:
   - Default
   - TransparentFX

@@ -275,11 +275,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2990dc46327837243905c951ee0d6a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyAttributes: {fileID: 11400000, guid: fa30b9ddfe1322943a8e18d2f47bd254, type: 2}
+  _enemyAttributes: {fileID: 11400000, guid: 985e3c512a53dff4eb93ef963bbcbca0, type: 2}
   _currentLife: 0
   _distanceToAttack: 5
   _bufferDistance: 15
-  _chanceToGiveItem: 0
+  _chanceToGiveItem: 0.1
   _item: {fileID: 6852227662856516429, guid: 0c5b54d8da42e1c48bd64d8959410748, type: 3}
 --- !u!114 &1345495407036483955
 MonoBehaviour:

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MainCharacter
   m_EditorClassIdentifier: 
   _healthPoints: 100
-  _atkStrength: 20
+  _atkStrength: 5
   _defenseArmor: 1
   _moveSpeed: 4

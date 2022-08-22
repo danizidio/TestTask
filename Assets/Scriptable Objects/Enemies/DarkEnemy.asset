@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd48942ea08150f4583ac600ca2837c4, type: 3}
-  m_Name: CommonEnemy
+  m_Name: DarkEnemy
   m_EditorClassIdentifier: 
-  _healthPoints: 10
-  _xpPoints: 5
-  _maxMoney: 25
-  _atkStrength: 10
-  _defenseArmor: 1
+  _healthPoints: 50
+  _xpPoints: 15
+  _maxMoney: 100
+  _atkStrength: 20
+  _defenseArmor: 5
   _moveSpeed: 2
